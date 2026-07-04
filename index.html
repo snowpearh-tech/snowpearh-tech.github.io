@@ -1,0 +1,507 @@
+	<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>家庭点菜单</title>
+  <style>
+    :root {
+      --bg: #f7f4ea;
+      --card: #fffdf7;
+      --line: #e7dcc8;
+      --text: #2f2a22;
+      --sub: #7a705f;
+      --accent: #2f7d4d;
+      --accent-2: #d96c3f;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+      background: linear-gradient(180deg, #f6f0df 0%, #f8f8f3 100%);
+      color: var(--text);
+    }
+    .wrap {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 24px 16px 40px;
+    }
+    .hero {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 10px 30px rgba(80, 60, 30, 0.06);
+    }
+    h1 { margin: 0 0 8px; font-size: 28px; }
+    .sub { color: var(--sub); margin: 0; }
+    .grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 16px;
+      box-shadow: 0 8px 22px rgba(80, 60, 30, 0.05);
+    }
+    .row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+    label { font-size: 14px; color: var(--sub); }
+    input, select, button, textarea {
+      font: inherit;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      padding: 10px 12px;
+      background: white;
+    }
+    input[type="date"], select, textarea { width: 100%; }
+    button {
+      cursor: pointer;
+      border: none;
+      background: var(--accent);
+      color: white;
+      font-weight: 700;
+    }
+    button.secondary {
+      background: #ece5d7;
+      color: var(--text);
+      border: 1px solid var(--line);
+    }
+    .menu-list, .order-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .menu-item, .order-item {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 12px;
+      background: #fff;
+    }
+    .menu-top, .order-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+    }
+    .dish-name { font-weight: 700; }
+    .dish-meta, .tip { color: var(--sub); font-size: 13px; }
+    .qty-box {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-top: 10px;
+    }
+    .qty-box input {
+      width: 80px;
+    }
+    .status {
+      margin-top: 12px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: #f1f7f3;
+      color: #24593a;
+      font-size: 14px;
+      min-height: 42px;
+    }
+    .empty {
+      color: var(--sub);
+      padding: 10px 0;
+    }
+    .pill {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: #f5e3d7;
+      color: #9a4a23;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .remark {
+      margin-top: 8px;
+      color: var(--sub);
+      font-size: 13px;
+    }
+    @media (max-width: 780px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="hero">
+      <h1>家庭点菜单</h1>
+      <p class="sub">先做可用版：查看今日菜单、选择家人、提交点菜、查看当前点菜结果。</p>
+    </div>
+
+    <div class="grid">
+      <section class="card">
+        <div class="row">
+          <div style="flex:1 1 180px;">
+            <label for="menuDate">菜单日期</label>
+            <input id="menuDate" type="date" />
+          </div>
+          <div style="flex:0 0 120px; align-self:end;">
+            <button id="loadBtn" class="secondary" style="width:100%;">加载菜单</button>
+          </div>
+        </div>
+
+        <div id="menuInfo" class="tip">正在加载菜单...</div>
+        <div id="menuList" class="menu-list"></div>
+
+        <form id="orderForm">
+          <div class="row" style="margin-top:14px;">
+            <div style="flex:1 1 180px;">
+              <label for="userSelect">点菜人</label>
+              <select id="userSelect"></select>
+            </div>
+          </div>
+
+          <div class="row">
+            <div style="flex:1 1 100%;">
+              <label for="remark">备注</label>
+              <textarea id="remark" rows="2" placeholder="比如：少辣、想喝汤、今天想清淡一点"></textarea>
+            </div>
+          </div>
+
+          <button type="submit" style="width:100%;">提交 / 更新点菜</button>
+        </form>
+
+        <div id="statusBox" class="status">等待操作</div>
+      </section>
+
+      <section class="card">
+        <div class="menu-top">
+          <h3 style="margin:0;">当前点菜结果</h3>
+          <span class="pill" id="orderCount">0 单</span>
+        </div>
+        <div id="orderList" class="order-list"></div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    const SUPABASE_URL = "https://lumbywzgadqqjmgzjjih.supabase.co/";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx1bWJ5d3pnYWRxcWptZ3pqamloIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMxNzA0MTEsImV4cCI6MjA5ODc0NjQxMX0.1A0m9Dbl_TSEOgnGmksVy_9toImcRjpTPEPe_wVu9lk";
+    const FAMILY_ID = "fam_001";
+    const DEFAULT_MENU_DATE = "2026-07-04";
+
+    const state = {
+      users: [],
+      menu: null,
+      menuItems: [],
+      dishesById: {},
+      orders: []
+    };
+
+    const $menuDate = document.getElementById("menuDate");
+    const $loadBtn = document.getElementById("loadBtn");
+    const $menuInfo = document.getElementById("menuInfo");
+    const $menuList = document.getElementById("menuList");
+    const $userSelect = document.getElementById("userSelect");
+    const $remark = document.getElementById("remark");
+    const $orderForm = document.getElementById("orderForm");
+    const $statusBox = document.getElementById("statusBox");
+    const $orderList = document.getElementById("orderList");
+    const $orderCount = document.getElementById("orderCount");
+
+    $menuDate.value = DEFAULT_MENU_DATE;
+    $loadBtn.addEventListener("click", loadAll);
+    $orderForm.addEventListener("submit", submitOrder);
+
+    function setStatus(text, isError = false) {
+      $statusBox.textContent = text;
+      $statusBox.style.background = isError ? "#fff1ef" : "#f1f7f3";
+      $statusBox.style.color = isError ? "#a33a2a" : "#24593a";
+    }
+
+    async function api(path, method = "GET", body = null, extraHeaders = {}) {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+        method,
+        headers: {
+          "apikey": SUPABASE_ANON_KEY,
+          "Authorization": `Bearer ${SUPABASE_ANON_KEY}`,
+          "Content-Type": "application/json",
+          ...extraHeaders
+        },
+        body: body ? JSON.stringify(body) : null
+      });
+
+      const text = await res.text();
+      if (!res.ok) {
+        throw new Error(text || `${method} ${path} 失败`);
+      }
+      return text ? JSON.parse(text) : [];
+    }
+
+    function esc(s) {
+      return String(s ?? "").replace(/[&<>"']/g, c => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "\"": "&quot;",
+        "'": "&#39;"
+      }[c]));
+    }
+
+    async function loadAll() {
+      try {
+        setStatus("正在加载...");
+        const menuDate = $menuDate.value;
+
+        state.users = await api(
+          `users?select=id,nickname&family_id=eq.${FAMILY_ID}&order=created_at.asc`
+        );
+
+        renderUserSelect();
+
+        const menus = await api(
+          `daily_menus?select=id,family_id,menu_date,note,status,created_by,created_at&family_id=eq.${FAMILY_ID}&menu_date=eq.${menuDate}&limit=1`
+        );
+
+        state.menu = menus[0] || null;
+
+        if (!state.menu) {
+          state.menuItems = [];
+          state.orders = [];
+          state.dishesById = {};
+          renderMenu();
+          renderOrders();
+          setStatus("这一天还没有菜单。", true);
+          return;
+        }
+
+        state.menuItems = await api(
+          `daily_menu_items?select=id,menu_id,dish_id,available_qty,cook_note,sort_order&menu_id=eq.${state.menu.id}&order=sort_order.asc`
+        );
+
+        const dishIds = [...new Set(state.menuItems.map(x => x.dish_id))];
+        const dishes = dishIds.length
+          ? await api(`dishes?select=id,name,category,note&id=in.(${dishIds.join(",")})`)
+          : [];
+
+        state.dishesById = Object.fromEntries(dishes.map(d => [d.id, d]));
+
+        const orders = await api(
+          `orders?select=id,menu_id,user_id,status,remark,created_at&menu_id=eq.${state.menu.id}&order=created_at.asc`
+        );
+
+        const orderIds = orders.map(o => o.id);
+        const orderItems = orderIds.length
+          ? await api(`order_items?select=id,order_id,dish_id,qty,note&order_id=in.(${orderIds.join(",")})`)
+          : [];
+
+        state.orders = orders.map(order => {
+          const user = state.users.find(u => u.id === order.user_id);
+          const items = orderItems
+            .filter(i => i.order_id === order.id)
+            .map(i => ({
+              ...i,
+              dish_name: state.dishesById[i.dish_id]?.name || i.dish_id
+            }));
+
+          return {
+            ...order,
+            nickname: user ? user.nickname : order.user_id,
+            items
+          };
+        });
+
+        renderMenu();
+        renderOrders();
+        setStatus("菜单加载完成。");
+      } catch (err) {
+        setStatus(`加载失败：${err.message}`, true);
+      }
+    }
+
+    function renderUserSelect() {
+      if (!state.users.length) {
+        $userSelect.innerHTML = `<option value="">没有成员</option>`;
+        return;
+      }
+      $userSelect.innerHTML = state.users
+        .map(user => `<option value="${esc(user.id)}">${esc(user.nickname)}</option>`)
+        .join("");
+    }
+
+    function renderMenu() {
+      if (!state.menu) {
+        $menuInfo.innerHTML = `当前没有找到这一天的菜单。`;
+        $menuList.innerHTML = `<div class="empty">请先在数据库里创建这一天的菜单。</div>`;
+        return;
+      }
+
+      $menuInfo.innerHTML = `日期：<b>${esc(state.menu.menu_date)}</b> ｜ 状态：<b>${esc(state.menu.status)}</b><br>${esc(state.menu.note || "暂无菜单说明")}`;
+
+      if (!state.menuItems.length) {
+        $menuList.innerHTML = `<div class="empty">这一天的菜单还没有菜品。</div>`;
+        return;
+      }
+
+      $menuList.innerHTML = state.menuItems.map(item => {
+        const dish = state.dishesById[item.dish_id] || {};
+        return `
+          <div class="menu-item">
+            <div class="menu-top">
+              <div>
+                <div class="dish-name">${esc(dish.name || item.dish_id)}</div>
+                <div class="dish-meta">${esc(dish.category || "未分类")} ｜ 可做份数：${esc(item.available_qty)}</div>
+              </div>
+              <label>
+                <input type="checkbox" class="dish-check" data-dish-id="${esc(item.dish_id)}" />
+                选择
+              </label>
+            </div>
+            <div class="remark">${esc(item.cook_note || "无备注")}</div>
+            <div class="qty-box">
+              <span class="tip">份数</span>
+              <input type="number" class="dish-qty" data-dish-id="${esc(item.dish_id)}" min="1" value="1" />
+              <input type="text" class="dish-note" data-dish-id="${esc(item.dish_id)}" placeholder="口味备注，例如少辣" style="flex:1;" />
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderOrders() {
+      $orderCount.textContent = `${state.orders.length} 单`;
+
+      if (!state.orders.length) {
+        $orderList.innerHTML = `<div class="empty">还没有人点菜。</div>`;
+        return;
+      }
+
+      $orderList.innerHTML = state.orders.map(order => `
+        <div class="order-item">
+          <div class="order-top">
+            <strong>${esc(order.nickname)}</strong>
+            <span class="pill">${esc(order.status)}</span>
+          </div>
+          <div class="remark">${esc(order.remark || "无备注")}</div>
+          <div class="remark" style="margin-top:8px;">
+            ${order.items.map(item => `${esc(item.dish_name)} x ${esc(item.qty)}${item.note ? `（${esc(item.note)}）` : ""}`).join("<br>")}
+          </div>
+        </div>
+      `).join("");
+    }
+
+    async function submitOrder(event) {
+      event.preventDefault();
+
+      try {
+        if (!state.menu) {
+          setStatus("当前没有菜单，无法提交。", true);
+          return;
+        }
+
+        const userId = $userSelect.value;
+        const remark = $remark.value.trim();
+
+        const selectedItems = state.menuItems
+          .map(item => {
+            const checked = document.querySelector(`.dish-check[data-dish-id="${item.dish_id}"]`)?.checked;
+            const qty = Number(document.querySelector(`.dish-qty[data-dish-id="${item.dish_id}"]`)?.value || 1);
+            const note = document.querySelector(`.dish-note[data-dish-id="${item.dish_id}"]`)?.value?.trim() || "";
+            if (!checked) return null;
+            return {
+              dish_id: item.dish_id,
+              qty: qty > 0 ? qty : 1,
+              note
+            };
+          })
+          .filter(Boolean);
+
+        if (!userId) {
+          setStatus("请先选择点菜人。", true);
+          return;
+        }
+
+        if (!selectedItems.length) {
+          setStatus("请至少选择一道菜。", true);
+          return;
+        }
+
+        setStatus("正在提交点菜...");
+
+        const existing = await api(
+          `orders?select=id&menu_id=eq.${state.menu.id}&user_id=eq.${userId}&limit=1`
+        );
+
+        let orderId = existing[0]?.id;
+
+        if (orderId) {
+          await api(
+            `orders?id=eq.${orderId}`,
+            "PATCH",
+            {
+              remark,
+              status: "submitted",
+              updated_at: new Date().toISOString()
+            },
+            { "Prefer": "return=minimal" }
+          );
+
+          await api(
+            `order_items?order_id=eq.${orderId}`,
+            "DELETE",
+            null,
+            { "Prefer": "return=minimal" }
+          );
+        } else {
+          orderId = crypto.randomUUID();
+
+          await api(
+            `orders`,
+            "POST",
+            [{
+              id: orderId,
+              menu_id: state.menu.id,
+              user_id: userId,
+              status: "submitted",
+              remark
+            }],
+            { "Prefer": "return=minimal" }
+          );
+        }
+
+        const payload = selectedItems.map(item => ({
+          id: crypto.randomUUID(),
+          order_id: orderId,
+          dish_id: item.dish_id,
+          qty: item.qty,
+          note: item.note
+        }));
+
+        await api(
+          `order_items`,
+          "POST",
+          payload,
+          { "Prefer": "return=minimal" }
+        );
+
+        $remark.value = "";
+        document.querySelectorAll(".dish-check").forEach(el => el.checked = false);
+        document.querySelectorAll(".dish-qty").forEach(el => el.value = 1);
+        document.querySelectorAll(".dish-note").forEach(el => el.value = "");
+
+        await loadAll();
+        setStatus("提交成功。");
+      } catch (err) {
+        setStatus(`提交失败：${err.message}`, true);
+      }
+    }
+
+    loadAll();
+  </script>
+</body>
+</html>

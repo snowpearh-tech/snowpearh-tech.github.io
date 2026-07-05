@@ -134,14 +134,41 @@
     @media (max-width: 780px) {
       .grid { grid-template-columns: 1fr; }
     }
+.guide {
+  margin-top: 14px;
+  background: #fff8ea;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 14px 16px;
+}
+
+.guide-title {
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.guide-text {
+  color: var(--sub);
+  font-size: 14px;
+  line-height: 1.7;
+}
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="hero">
-      <h1>家庭点菜单</h1>
-      <p class="sub">先做可用版：查看今日菜单、选择家人、提交点菜、查看当前点菜结果。</p>
+<div class="hero">
+  <h1>家庭点菜单</h1>
+  <p class="sub">查看今日菜单、输入名字、提交点菜、查看当前点菜结果。</p>
+
+  <div class="guide">
+    <div class="guide-title">使用说明</div>
+    <div class="guide-text">
+      1. 先确认菜单日期。<br>
+      2. 输入自己的名字，也可以直接输入新名字。<br>
+      3. 勾选想吃的菜，填写份数和口味备注。<br>
+      4. 点击“提交 / 更新点菜”即可。
     </div>
+  </div>
+</div>
 
     <div class="grid">
       <section class="card">
@@ -160,11 +187,11 @@
 
         <form id="orderForm">
           <div class="row" style="margin-top:14px;">
-            <div style="flex:1 1 180px;">
-              <label for="userSelect">点菜人</label>
-              <select id="userSelect"></select>
-            </div>
-          </div>
+<div style="flex:1 1 180px;">
+  <label for="userName">点菜人</label>
+  <input id="userName" list="userSuggestions" placeholder="输入自己的名字，比如：妈妈" />
+  <datalist id="userSuggestions"></datalist>
+</div>
 
           <div class="row">
             <div style="flex:1 1 100%;">
@@ -193,28 +220,16 @@
     const SUPABASE_URL = "https://lumbywzgadqqjmgzjjih.supabase.co/";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx1bWJ5d3pnYWRxcWptZ3pqamloIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMxNzA0MTEsImV4cCI6MjA5ODc0NjQxMX0.1A0m9Dbl_TSEOgnGmksVy_9toImcRjpTPEPe_wVu9lk";
     const FAMILY_ID = "fam_001";
-    const DEFAULT_MENU_DATE = "2026-07-04";
+const $userName = document.getElementById("userName");
+const $userSuggestions = document.getElementById("userSuggestions");
 
-    const state = {
-      users: [],
-      menu: null,
-      menuItems: [],
-      dishesById: {},
-      orders: []
-    };
+function getTodayLocalDate() {
+  const now = new Date();
+  const tzOffset = now.getTimezoneOffset() * 60000;
+  return new Date(now.getTime() - tzOffset).toISOString().slice(0, 10);
+}
 
-    const $menuDate = document.getElementById("menuDate");
-    const $loadBtn = document.getElementById("loadBtn");
-    const $menuInfo = document.getElementById("menuInfo");
-    const $menuList = document.getElementById("menuList");
-    const $userSelect = document.getElementById("userSelect");
-    const $remark = document.getElementById("remark");
-    const $orderForm = document.getElementById("orderForm");
-    const $statusBox = document.getElementById("statusBox");
-    const $orderList = document.getElementById("orderList");
-    const $orderCount = document.getElementById("orderCount");
-
-    $menuDate.value = DEFAULT_MENU_DATE;
+$menuDate.value = getTodayLocalDate();
     $loadBtn.addEventListener("click", loadAll);
     $orderForm.addEventListener("submit", submitOrder);
 
@@ -262,7 +277,7 @@
           `users?select=id,nickname&family_id=eq.${FAMILY_ID}&order=created_at.asc`
         );
 
-        renderUserSelect();
+renderUserSuggestions();
 
         const menus = await api(
           `daily_menus?select=id,family_id,menu_date,note,status,created_by,created_at&family_id=eq.${FAMILY_ID}&menu_date=eq.${menuDate}&limit=1`
@@ -324,15 +339,50 @@
       }
     }
 
-    function renderUserSelect() {
-      if (!state.users.length) {
-        $userSelect.innerHTML = `<option value="">没有成员</option>`;
-        return;
-      }
-      $userSelect.innerHTML = state.users
-        .map(user => `<option value="${esc(user.id)}">${esc(user.nickname)}</option>`)
-        .join("");
-    }
+function renderUserSuggestions() {
+  $userSuggestions.innerHTML = state.users
+    .map(user => `<option value="${esc(user.nickname)}"></option>`)
+    .join("");
+}
+
+async function ensureUserByName(name) {
+  const trimmedName = name.trim();
+
+  if (!trimmedName) {
+    throw new Error("请输入点菜人名字");
+  }
+
+  const existingUsers = await api(
+    `users?select=id,nickname&family_id=eq.${FAMILY_ID}&nickname=eq.${encodeURIComponent(trimmedName)}&limit=1`
+  );
+
+  if (existingUsers[0]) {
+    return existingUsers[0];
+  }
+
+  const newUser = {
+    id: crypto.randomUUID(),
+    family_id: FAMILY_ID,
+    nickname: trimmedName,
+    role: "member",
+    pin_hash: "demo-self-register"
+  };
+
+  await api(
+    `users`,
+    "POST",
+    [newUser],
+    { "Prefer": "return=minimal" }
+  );
+
+  state.users.push({
+    id: newUser.id,
+    nickname: newUser.nickname
+  });
+
+  renderUserSuggestions();
+  return newUser;
+}
 
     function renderMenu() {
       if (!state.menu) {
@@ -404,8 +454,8 @@
           return;
         }
 
-        const userId = $userSelect.value;
-        const remark = $remark.value.trim();
+  const userName = $userName.value.trim();
+const remark = $remark.value.trim();
 
         const selectedItems = state.menuItems
           .map(item => {
@@ -421,11 +471,13 @@
           })
           .filter(Boolean);
 
-        if (!userId) {
-          setStatus("请先选择点菜人。", true);
-          return;
-        }
+if (!userName) {
+  setStatus("请输入点菜人名字。", true);
+  return;
+}
 
+const user = await ensureUserByName(userName);
+const userId = user.id;
         if (!selectedItems.length) {
           setStatus("请至少选择一道菜。", true);
           return;

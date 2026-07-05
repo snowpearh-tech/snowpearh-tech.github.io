@@ -1,4 +1,4 @@
-	<!doctype html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
@@ -12,173 +12,243 @@
       --text: #2f2a22;
       --sub: #7a705f;
       --accent: #2f7d4d;
-      --accent-2: #d96c3f;
+      --accent-soft: #eef7f1;
+      --warn-soft: #fff1ef;
+      --pill-bg: #f5e3d7;
+      --pill-text: #9a4a23;
     }
-    * { box-sizing: border-box; }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
       background: linear-gradient(180deg, #f6f0df 0%, #f8f8f3 100%);
       color: var(--text);
     }
+
     .wrap {
-      max-width: 920px;
+      max-width: 980px;
       margin: 0 auto;
       padding: 24px 16px 40px;
     }
-    .hero {
+
+    .hero,
+    .card {
       background: var(--card);
       border: 1px solid var(--line);
       border-radius: 20px;
-      padding: 20px;
       box-shadow: 0 10px 30px rgba(80, 60, 30, 0.06);
     }
-    h1 { margin: 0 0 8px; font-size: 28px; }
-    .sub { color: var(--sub); margin: 0; }
+
+    .hero {
+      padding: 20px;
+    }
+
+    .card {
+      padding: 16px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+    }
+
+    h3 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .sub {
+      margin: 0;
+      color: var(--sub);
+    }
+
+    .guide {
+      margin-top: 14px;
+      padding: 14px 16px;
+      background: #fff8ea;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+    }
+
+    .guide-title {
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+
+    .guide-text {
+      color: var(--sub);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
     .grid {
       display: grid;
       grid-template-columns: 1.1fr 0.9fr;
       gap: 16px;
       margin-top: 16px;
     }
-    .card {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      padding: 16px;
-      box-shadow: 0 8px 22px rgba(80, 60, 30, 0.05);
-    }
+
     .row {
       display: flex;
-      gap: 10px;
-      align-items: center;
       flex-wrap: wrap;
+      gap: 10px;
+      align-items: end;
       margin-bottom: 12px;
     }
-    label { font-size: 14px; color: var(--sub); }
-    input, select, button, textarea {
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--sub);
+      font-size: 14px;
+    }
+
+    input,
+    textarea,
+    button {
+      width: 100%;
       font: inherit;
       border-radius: 12px;
       border: 1px solid var(--line);
       padding: 10px 12px;
-      background: white;
+      background: #fff;
     }
-    input[type="date"], select, textarea { width: 100%; }
+
+    input[type="date"],
+    textarea {
+      width: 100%;
+    }
+
+    textarea {
+      min-height: 88px;
+      resize: vertical;
+    }
+
     button {
-      cursor: pointer;
       border: none;
       background: var(--accent);
-      color: white;
+      color: #fff;
       font-weight: 700;
+      cursor: pointer;
     }
+
     button.secondary {
       background: #ece5d7;
       color: var(--text);
       border: 1px solid var(--line);
     }
-    .menu-list, .order-list {
+
+    .menu-list,
+    .order-list {
       display: grid;
       gap: 10px;
       margin-top: 12px;
     }
-    .menu-item, .order-item {
+
+    .menu-item,
+    .order-item {
       border: 1px solid var(--line);
       border-radius: 16px;
       padding: 12px;
       background: #fff;
     }
-    .menu-top, .order-top {
+
+    .menu-top,
+    .order-top {
       display: flex;
       justify-content: space-between;
       gap: 12px;
       align-items: center;
     }
-    .dish-name { font-weight: 700; }
-    .dish-meta, .tip { color: var(--sub); font-size: 13px; }
+
+    .dish-name {
+      font-weight: 700;
+    }
+
+    .dish-meta,
+    .tip,
+    .remark {
+      color: var(--sub);
+      font-size: 13px;
+    }
+
+    .remark {
+      margin-top: 8px;
+    }
+
     .qty-box {
       display: flex;
       gap: 8px;
       align-items: center;
       margin-top: 10px;
     }
-    .qty-box input {
-      width: 80px;
+
+    .qty-box .qty-input {
+      width: 90px;
     }
+
     .status {
       margin-top: 12px;
+      min-height: 42px;
       padding: 10px 12px;
       border-radius: 12px;
-      background: #f1f7f3;
+      background: var(--accent-soft);
       color: #24593a;
       font-size: 14px;
-      min-height: 42px;
     }
+
     .empty {
-      color: var(--sub);
       padding: 10px 0;
+      color: var(--sub);
     }
+
     .pill {
       display: inline-block;
       padding: 4px 10px;
       border-radius: 999px;
-      background: #f5e3d7;
-      color: #9a4a23;
+      background: var(--pill-bg);
+      color: var(--pill-text);
       font-size: 12px;
       font-weight: 700;
     }
-    .remark {
-      margin-top: 8px;
-      color: var(--sub);
-      font-size: 13px;
-    }
+
     @media (max-width: 780px) {
-      .grid { grid-template-columns: 1fr; }
+      .grid {
+        grid-template-columns: 1fr;
+      }
     }
-.guide {
-  margin-top: 14px;
-  background: #fff8ea;
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  padding: 14px 16px;
-}
-
-.guide-title {
-  font-weight: 700;
-  margin-bottom: 6px;
-}
-
-.guide-text {
-  color: var(--sub);
-  font-size: 14px;
-  line-height: 1.7;
-}
   </style>
 </head>
 <body>
-<div class="hero">
-  <h1>家庭点菜单</h1>
-  <p class="sub">查看今日菜单、输入名字、提交点菜、查看当前点菜结果。</p>
+  <div class="wrap">
+    <div class="hero">
+      <h1>家庭点菜单</h1>
+      <p class="sub">查看今日菜单、输入名字、提交点菜、查看当前点菜结果。</p>
 
-  <div class="guide">
-    <div class="guide-title">使用说明</div>
-    <div class="guide-text">
-      1. 先确认菜单日期。<br>
-      2. 输入自己的名字，也可以直接输入新名字。<br>
-      3. 勾选想吃的菜，填写份数和口味备注。<br>
-      4. 点击“提交 / 更新点菜”即可。
+      <div class="guide">
+        <div class="guide-title">使用说明</div>
+        <div class="guide-text">
+          1. 先确认菜单日期。<br />
+          2. 输入自己的名字，也可以直接输入新名字。<br />
+          3. 勾选想吃的菜，填写份数和口味备注。<br />
+          4. 点击“提交 / 更新点菜”即可。
+        </div>
+      </div>
     </div>
-  </div>
-</div>
 
     <div class="grid">
       <section class="card">
         <div class="row">
-          <div style="flex:1 1 180px;">
+          <div style="flex: 1 1 180px;">
             <label for="menuDate">菜单日期</label>
             <input id="menuDate" type="date" />
           </div>
-          <div style="flex:0 0 120px; align-self:end;">
-            <button id="loadBtn" class="secondary" style="width:100%;">加载菜单</button>
+          <div style="flex: 0 0 120px;">
+            <button id="loadBtn" class="secondary" type="button">加载菜单</button>
           </div>
         </div>
 
@@ -186,21 +256,30 @@
         <div id="menuList" class="menu-list"></div>
 
         <form id="orderForm">
-          <div class="row" style="margin-top:14px;">
-<div style="flex:1 1 180px;">
-  <label for="userName">点菜人</label>
-  <input id="userName" list="userSuggestions" placeholder="输入自己的名字，比如：妈妈" />
-  <datalist id="userSuggestions"></datalist>
-</div>
-
-          <div class="row">
-            <div style="flex:1 1 100%;">
-              <label for="remark">备注</label>
-              <textarea id="remark" rows="2" placeholder="比如：少辣、想喝汤、今天想清淡一点"></textarea>
+          <div class="row" style="margin-top: 14px;">
+            <div style="flex: 1 1 180px;">
+              <label for="userName">点菜人</label>
+              <input
+                id="userName"
+                list="userSuggestions"
+                placeholder="输入自己的名字，比如：妈妈"
+              />
+              <datalist id="userSuggestions"></datalist>
             </div>
           </div>
 
-          <button type="submit" style="width:100%;">提交 / 更新点菜</button>
+          <div class="row">
+            <div style="flex: 1 1 100%;">
+              <label for="remark">备注</label>
+              <textarea
+                id="remark"
+                rows="2"
+                placeholder="比如：少辣、想喝汤、今天想清淡一点"
+              ></textarea>
+            </div>
+          </div>
+
+          <button type="submit">提交 / 更新点菜</button>
         </form>
 
         <div id="statusBox" class="status">等待操作</div>
@@ -208,7 +287,7 @@
 
       <section class="card">
         <div class="menu-top">
-          <h3 style="margin:0;">当前点菜结果</h3>
+          <h3>当前点菜结果</h3>
           <span class="pill" id="orderCount">0 单</span>
         </div>
         <div id="orderList" class="order-list"></div>
@@ -217,30 +296,52 @@
   </div>
 
   <script>
-    const SUPABASE_URL = "https://lumbywzgadqqjmgzjjih.supabase.co/";
+    const SUPABASE_URL = "https://lumbywzgadqqjmgzjjih.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx1bWJ5d3pnYWRxcWptZ3pqamloIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMxNzA0MTEsImV4cCI6MjA5ODc0NjQxMX0.1A0m9Dbl_TSEOgnGmksVy_9toImcRjpTPEPe_wVu9lk";
     const FAMILY_ID = "fam_001";
-const $userName = document.getElementById("userName");
-const $userSuggestions = document.getElementById("userSuggestions");
+    const LAST_USER_STORAGE_KEY = "family-menu-last-user";
 
-function getTodayLocalDate() {
-  const now = new Date();
-  const tzOffset = now.getTimezoneOffset() * 60000;
-  return new Date(now.getTime() - tzOffset).toISOString().slice(0, 10);
-}
+    const state = {
+      users: [],
+      menu: null,
+      menuItems: [],
+      dishesById: {},
+      orders: []
+    };
 
-$menuDate.value = getTodayLocalDate();
+    const $menuDate = document.getElementById("menuDate");
+    const $loadBtn = document.getElementById("loadBtn");
+    const $menuInfo = document.getElementById("menuInfo");
+    const $menuList = document.getElementById("menuList");
+    const $userName = document.getElementById("userName");
+    const $userSuggestions = document.getElementById("userSuggestions");
+    const $remark = document.getElementById("remark");
+    const $orderForm = document.getElementById("orderForm");
+    const $statusBox = document.getElementById("statusBox");
+    const $orderList = document.getElementById("orderList");
+    const $orderCount = document.getElementById("orderCount");
+
+    function getTodayLocalDate() {
+      const now = new Date();
+      const offsetMs = now.getTimezoneOffset() * 60000;
+      return new Date(now.getTime() - offsetMs).toISOString().slice(0, 10);
+    }
+
+    $menuDate.value = getTodayLocalDate();
+    $userName.value = localStorage.getItem(LAST_USER_STORAGE_KEY) || "";
+
     $loadBtn.addEventListener("click", loadAll);
     $orderForm.addEventListener("submit", submitOrder);
 
     function setStatus(text, isError = false) {
       $statusBox.textContent = text;
-      $statusBox.style.background = isError ? "#fff1ef" : "#f1f7f3";
+      $statusBox.style.background = isError ? "var(--warn-soft)" : "var(--accent-soft)";
       $statusBox.style.color = isError ? "#a33a2a" : "#24593a";
     }
 
     async function api(path, method = "GET", body = null, extraHeaders = {}) {
-      const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+      const baseUrl = SUPABASE_URL.replace(/\/$/, "");
+      const res = await fetch(`${baseUrl}/rest/v1/${path}`, {
         method,
         headers: {
           "apikey": SUPABASE_ANON_KEY,
@@ -253,31 +354,76 @@ $menuDate.value = getTodayLocalDate();
 
       const text = await res.text();
       if (!res.ok) {
-        throw new Error(text || `${method} ${path} 失败`);
+        throw new Error(text || `${method} ${path} failed`);
       }
+
       return text ? JSON.parse(text) : [];
     }
 
-    function esc(s) {
-      return String(s ?? "").replace(/[&<>"']/g, c => ({
+    function esc(value) {
+      return String(value ?? "").replace(/[&<>"']/g, (char) => ({
         "&": "&amp;",
         "<": "&lt;",
         ">": "&gt;",
         "\"": "&quot;",
         "'": "&#39;"
-      }[c]));
+      }[char]));
+    }
+
+    function renderUserSuggestions() {
+      $userSuggestions.innerHTML = state.users
+        .map((user) => `<option value="${esc(user.nickname)}"></option>`)
+        .join("");
+    }
+
+    async function ensureUserByName(name) {
+      const trimmedName = name.trim();
+
+      if (!trimmedName) {
+        throw new Error("请输入点菜人名字");
+      }
+
+      const existingUsers = await api(
+        `users?select=id,nickname&family_id=eq.${FAMILY_ID}&nickname=eq.${encodeURIComponent(trimmedName)}&limit=1`
+      );
+
+      if (existingUsers[0]) {
+        return existingUsers[0];
+      }
+
+      const newUser = {
+        id: crypto.randomUUID(),
+        family_id: FAMILY_ID,
+        nickname: trimmedName,
+        role: "member",
+        pin_hash: "demo-self-register"
+      };
+
+      await api(
+        "users",
+        "POST",
+        [newUser],
+        { "Prefer": "return=minimal" }
+      );
+
+      state.users.push({
+        id: newUser.id,
+        nickname: newUser.nickname
+      });
+
+      renderUserSuggestions();
+      return newUser;
     }
 
     async function loadAll() {
       try {
-        setStatus("正在加载...");
-        const menuDate = $menuDate.value;
+        setStatus("正在加载菜单...");
 
+        const menuDate = $menuDate.value;
         state.users = await api(
           `users?select=id,nickname&family_id=eq.${FAMILY_ID}&order=created_at.asc`
         );
-
-renderUserSuggestions();
+        renderUserSuggestions();
 
         const menus = await api(
           `daily_menus?select=id,family_id,menu_date,note,status,created_by,created_at&family_id=eq.${FAMILY_ID}&menu_date=eq.${menuDate}&limit=1`
@@ -299,29 +445,29 @@ renderUserSuggestions();
           `daily_menu_items?select=id,menu_id,dish_id,available_qty,cook_note,sort_order&menu_id=eq.${state.menu.id}&order=sort_order.asc`
         );
 
-        const dishIds = [...new Set(state.menuItems.map(x => x.dish_id))];
+        const dishIds = [...new Set(state.menuItems.map((item) => item.dish_id))];
         const dishes = dishIds.length
           ? await api(`dishes?select=id,name,category,note&id=in.(${dishIds.join(",")})`)
           : [];
 
-        state.dishesById = Object.fromEntries(dishes.map(d => [d.id, d]));
+        state.dishesById = Object.fromEntries(dishes.map((dish) => [dish.id, dish]));
 
         const orders = await api(
           `orders?select=id,menu_id,user_id,status,remark,created_at&menu_id=eq.${state.menu.id}&order=created_at.asc`
         );
 
-        const orderIds = orders.map(o => o.id);
+        const orderIds = orders.map((order) => order.id);
         const orderItems = orderIds.length
           ? await api(`order_items?select=id,order_id,dish_id,qty,note&order_id=in.(${orderIds.join(",")})`)
           : [];
 
-        state.orders = orders.map(order => {
-          const user = state.users.find(u => u.id === order.user_id);
+        state.orders = orders.map((order) => {
+          const user = state.users.find((item) => item.id === order.user_id);
           const items = orderItems
-            .filter(i => i.order_id === order.id)
-            .map(i => ({
-              ...i,
-              dish_name: state.dishesById[i.dish_id]?.name || i.dish_id
+            .filter((item) => item.order_id === order.id)
+            .map((item) => ({
+              ...item,
+              dish_name: state.dishesById[item.dish_id]?.name || item.dish_id
             }));
 
           return {
@@ -334,60 +480,16 @@ renderUserSuggestions();
         renderMenu();
         renderOrders();
         setStatus("菜单加载完成。");
-      } catch (err) {
-        setStatus(`加载失败：${err.message}`, true);
+      } catch (error) {
+        console.error(error);
+        setStatus(`加载失败：${error.message}`, true);
       }
     }
 
-function renderUserSuggestions() {
-  $userSuggestions.innerHTML = state.users
-    .map(user => `<option value="${esc(user.nickname)}"></option>`)
-    .join("");
-}
-
-async function ensureUserByName(name) {
-  const trimmedName = name.trim();
-
-  if (!trimmedName) {
-    throw new Error("请输入点菜人名字");
-  }
-
-  const existingUsers = await api(
-    `users?select=id,nickname&family_id=eq.${FAMILY_ID}&nickname=eq.${encodeURIComponent(trimmedName)}&limit=1`
-  );
-
-  if (existingUsers[0]) {
-    return existingUsers[0];
-  }
-
-  const newUser = {
-    id: crypto.randomUUID(),
-    family_id: FAMILY_ID,
-    nickname: trimmedName,
-    role: "member",
-    pin_hash: "demo-self-register"
-  };
-
-  await api(
-    `users`,
-    "POST",
-    [newUser],
-    { "Prefer": "return=minimal" }
-  );
-
-  state.users.push({
-    id: newUser.id,
-    nickname: newUser.nickname
-  });
-
-  renderUserSuggestions();
-  return newUser;
-}
-
     function renderMenu() {
       if (!state.menu) {
-        $menuInfo.innerHTML = `当前没有找到这一天的菜单。`;
-        $menuList.innerHTML = `<div class="empty">请先在数据库里创建这一天的菜单。</div>`;
+        $menuInfo.innerHTML = "当前没有找到这一天的菜单。";
+        $menuList.innerHTML = `<div class="empty">请先在管理员页创建这一天的菜单。</div>`;
         return;
       }
 
@@ -398,8 +500,9 @@ async function ensureUserByName(name) {
         return;
       }
 
-      $menuList.innerHTML = state.menuItems.map(item => {
+      $menuList.innerHTML = state.menuItems.map((item) => {
         const dish = state.dishesById[item.dish_id] || {};
+
         return `
           <div class="menu-item">
             <div class="menu-top">
@@ -415,8 +518,8 @@ async function ensureUserByName(name) {
             <div class="remark">${esc(item.cook_note || "无备注")}</div>
             <div class="qty-box">
               <span class="tip">份数</span>
-              <input type="number" class="dish-qty" data-dish-id="${esc(item.dish_id)}" min="1" value="1" />
-              <input type="text" class="dish-note" data-dish-id="${esc(item.dish_id)}" placeholder="口味备注，例如少辣" style="flex:1;" />
+              <input type="number" class="qty-input dish-qty" data-dish-id="${esc(item.dish_id)}" min="1" value="1" />
+              <input type="text" class="dish-note" data-dish-id="${esc(item.dish_id)}" placeholder="口味备注，例如少辣" style="flex: 1;" />
             </div>
           </div>
         `;
@@ -431,15 +534,15 @@ async function ensureUserByName(name) {
         return;
       }
 
-      $orderList.innerHTML = state.orders.map(order => `
+      $orderList.innerHTML = state.orders.map((order) => `
         <div class="order-item">
           <div class="order-top">
             <strong>${esc(order.nickname)}</strong>
             <span class="pill">${esc(order.status)}</span>
           </div>
           <div class="remark">${esc(order.remark || "无备注")}</div>
-          <div class="remark" style="margin-top:8px;">
-            ${order.items.map(item => `${esc(item.dish_name)} x ${esc(item.qty)}${item.note ? `（${esc(item.note)}）` : ""}`).join("<br>")}
+          <div class="remark" style="margin-top: 8px;">
+            ${order.items.map((item) => `${esc(item.dish_name)} x ${esc(item.qty)}${item.note ? `（${esc(item.note)}）` : ""}`).join("<br>")}
           </div>
         </div>
       `).join("");
@@ -454,15 +557,23 @@ async function ensureUserByName(name) {
           return;
         }
 
-  const userName = $userName.value.trim();
-const remark = $remark.value.trim();
+        if (state.menu.status !== "open") {
+          setStatus("当前菜单未开放点菜。", true);
+          return;
+        }
 
+        const userName = $userName.value.trim();
+        const remark = $remark.value.trim();
         const selectedItems = state.menuItems
-          .map(item => {
+          .map((item) => {
             const checked = document.querySelector(`.dish-check[data-dish-id="${item.dish_id}"]`)?.checked;
             const qty = Number(document.querySelector(`.dish-qty[data-dish-id="${item.dish_id}"]`)?.value || 1);
             const note = document.querySelector(`.dish-note[data-dish-id="${item.dish_id}"]`)?.value?.trim() || "";
-            if (!checked) return null;
+
+            if (!checked) {
+              return null;
+            }
+
             return {
               dish_id: item.dish_id,
               qty: qty > 0 ? qty : 1,
@@ -471,19 +582,20 @@ const remark = $remark.value.trim();
           })
           .filter(Boolean);
 
-if (!userName) {
-  setStatus("请输入点菜人名字。", true);
-  return;
-}
+        if (!userName) {
+          setStatus("请输入点菜人名字。", true);
+          return;
+        }
 
-const user = await ensureUserByName(userName);
-const userId = user.id;
         if (!selectedItems.length) {
           setStatus("请至少选择一道菜。", true);
           return;
         }
 
         setStatus("正在提交点菜...");
+
+        const user = await ensureUserByName(userName);
+        const userId = user.id;
 
         const existing = await api(
           `orders?select=id&menu_id=eq.${state.menu.id}&user_id=eq.${userId}&limit=1`
@@ -513,7 +625,7 @@ const userId = user.id;
           orderId = crypto.randomUUID();
 
           await api(
-            `orders`,
+            "orders",
             "POST",
             [{
               id: orderId,
@@ -526,7 +638,7 @@ const userId = user.id;
           );
         }
 
-        const payload = selectedItems.map(item => ({
+        const payload = selectedItems.map((item) => ({
           id: crypto.randomUUID(),
           order_id: orderId,
           dish_id: item.dish_id,
@@ -535,21 +647,29 @@ const userId = user.id;
         }));
 
         await api(
-          `order_items`,
+          "order_items",
           "POST",
           payload,
           { "Prefer": "return=minimal" }
         );
 
+        localStorage.setItem(LAST_USER_STORAGE_KEY, userName);
         $remark.value = "";
-        document.querySelectorAll(".dish-check").forEach(el => el.checked = false);
-        document.querySelectorAll(".dish-qty").forEach(el => el.value = 1);
-        document.querySelectorAll(".dish-note").forEach(el => el.value = "");
+        document.querySelectorAll(".dish-check").forEach((element) => {
+          element.checked = false;
+        });
+        document.querySelectorAll(".dish-qty").forEach((element) => {
+          element.value = 1;
+        });
+        document.querySelectorAll(".dish-note").forEach((element) => {
+          element.value = "";
+        });
 
         await loadAll();
         setStatus("提交成功。");
-      } catch (err) {
-        setStatus(`提交失败：${err.message}`, true);
+      } catch (error) {
+        console.error(error);
+        setStatus(`提交失败：${error.message}`, true);
       }
     }
 

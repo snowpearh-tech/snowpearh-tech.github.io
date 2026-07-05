@@ -157,6 +157,23 @@
       background: #fff;
     }
 
+    .dish-layout {
+      display: grid;
+      grid-template-columns: 88px 1fr;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .dish-thumb {
+      width: 88px;
+      height: 88px;
+      object-fit: cover;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: #f8f3e8;
+      display: block;
+    }
+
     .menu-top,
     .order-top {
       display: flex;
@@ -219,6 +236,17 @@
     @media (max-width: 780px) {
       .grid {
         grid-template-columns: 1fr;
+      }
+
+      .dish-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .dish-thumb {
+        width: 100%;
+        max-width: 180px;
+        height: auto;
+        aspect-ratio: 1 / 1;
       }
     }
   </style>
@@ -302,6 +330,7 @@
     const LAST_USER_STORAGE_KEY = "family-menu-last-user";
 
     const state = {
+      supportsDishImages: true,
       users: [],
       menu: null,
       menuItems: [],
@@ -446,9 +475,21 @@
         );
 
         const dishIds = [...new Set(state.menuItems.map((item) => item.dish_id))];
-        const dishes = dishIds.length
-          ? await api(`dishes?select=id,name,category,note&id=in.(${dishIds.join(",")})`)
-          : [];
+        let dishes = [];
+
+        if (dishIds.length) {
+          try {
+            state.supportsDishImages = true;
+            dishes = await api(`dishes?select=id,name,category,note,image_url&id=in.(${dishIds.join(",")})`);
+          } catch (error) {
+            if (!String(error.message).includes("image_url")) {
+              throw error;
+            }
+
+            state.supportsDishImages = false;
+            dishes = await api(`dishes?select=id,name,category,note&id=in.(${dishIds.join(",")})`);
+          }
+        }
 
         state.dishesById = Object.fromEntries(dishes.map((dish) => [dish.id, dish]));
 
@@ -502,24 +543,34 @@
 
       $menuList.innerHTML = state.menuItems.map((item) => {
         const dish = state.dishesById[item.dish_id] || {};
+        const imageBlock = dish.image_url
+          ? `<img class="dish-thumb" src="${esc(dish.image_url)}" alt="${esc(dish.name || item.dish_id)}" />`
+          : `<div class="dish-thumb" style="display:flex;align-items:center;justify-content:center;color:#9b8d78;">暂无图片</div>`;
 
         return `
           <div class="menu-item">
-            <div class="menu-top">
+            <div class="dish-layout">
               <div>
-                <div class="dish-name">${esc(dish.name || item.dish_id)}</div>
-                <div class="dish-meta">${esc(dish.category || "未分类")} ｜ 可做份数：${esc(item.available_qty)}</div>
+                ${imageBlock}
               </div>
-              <label>
-                <input type="checkbox" class="dish-check" data-dish-id="${esc(item.dish_id)}" />
-                选择
-              </label>
-            </div>
-            <div class="remark">${esc(item.cook_note || "无备注")}</div>
-            <div class="qty-box">
-              <span class="tip">份数</span>
-              <input type="number" class="qty-input dish-qty" data-dish-id="${esc(item.dish_id)}" min="1" value="1" />
-              <input type="text" class="dish-note" data-dish-id="${esc(item.dish_id)}" placeholder="口味备注，例如少辣" style="flex: 1;" />
+              <div>
+                <div class="menu-top">
+                  <div>
+                    <div class="dish-name">${esc(dish.name || item.dish_id)}</div>
+                    <div class="dish-meta">${esc(dish.category || "未分类")} ｜ 可做份数：${esc(item.available_qty)}</div>
+                  </div>
+                  <label>
+                    <input type="checkbox" class="dish-check" data-dish-id="${esc(item.dish_id)}" />
+                    选择
+                  </label>
+                </div>
+                <div class="remark">${esc(item.cook_note || "无备注")}</div>
+                <div class="qty-box">
+                  <span class="tip">份数</span>
+                  <input type="number" class="qty-input dish-qty" data-dish-id="${esc(item.dish_id)}" min="1" value="1" />
+                  <input type="text" class="dish-note" data-dish-id="${esc(item.dish_id)}" placeholder="口味备注，例如少辣" style="flex: 1;" />
+                </div>
+              </div>
             </div>
           </div>
         `;

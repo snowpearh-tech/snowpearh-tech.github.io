@@ -12,35 +12,88 @@
       --text: #2f2a22;
       --sub: #7a705f;
       --accent: #2f7d4d;
+      --accent-soft: #eef7f1;
       --danger: #b24a3d;
+      --danger-soft: #fff1ef;
+      --pill-bg: #e9f4ec;
+      --pill-text: #2f7d4d;
+      --pill-warn-bg: #f5ece2;
+      --pill-warn-text: #9a5c24;
     }
-    * { box-sizing: border-box; }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
       background: linear-gradient(180deg, #f5efdf 0%, #f8f7f2 100%);
       color: var(--text);
     }
-    .wrap { max-width: 1000px; margin: 0 auto; padding: 20px 16px 40px; }
-    .hero, .card {
+
+    .wrap {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 20px 16px 40px;
+    }
+
+    .hero,
+    .card {
       background: var(--card);
       border: 1px solid var(--line);
       border-radius: 18px;
-      padding: 16px;
       box-shadow: 0 8px 24px rgba(80, 60, 30, 0.06);
     }
-    .hero { margin-bottom: 16px; }
-    h1, h2, h3 { margin: 0 0 10px; }
-    .sub { color: var(--sub); }
+
+    .hero {
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+
+    .card {
+      padding: 16px;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0 0 10px;
+    }
+
+    .sub {
+      color: var(--sub);
+    }
+
     .grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 16px;
       margin-top: 16px;
     }
-    .stack { display: grid; gap: 16px; }
-    label { font-size: 14px; color: var(--sub); display: block; margin-bottom: 6px; }
-    input, select, textarea, button {
+
+    .stack {
+      display: grid;
+      gap: 16px;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+      color: var(--sub);
+    }
+
+    input,
+    select,
+    textarea,
+    button {
       width: 100%;
       font: inherit;
       border-radius: 12px;
@@ -48,7 +101,12 @@
       padding: 10px 12px;
       background: #fff;
     }
-    textarea { min-height: 88px; }
+
+    textarea {
+      min-height: 88px;
+      resize: vertical;
+    }
+
     button {
       border: none;
       background: var(--accent);
@@ -56,71 +114,185 @@
       font-weight: 700;
       cursor: pointer;
     }
+
     button.secondary {
       background: #eee6d7;
       color: var(--text);
       border: 1px solid var(--line);
     }
-    button.danger { background: var(--danger); }
-    .row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
+
+    button.danger {
+      background: var(--danger);
     }
-    .menu-summary {
-      margin-top: 12px;
+
+    .menu-summary,
+    .status,
+    .summary-box {
       padding: 12px;
       border-radius: 12px;
-      background: #f7f1e4;
-      color: #5f5647;
       font-size: 14px;
     }
-    .dish-list {
+
+    .menu-summary {
+      margin-top: 12px;
+      background: #f7f1e4;
+      color: #5f5647;
+    }
+
+    .status {
+      margin-top: 12px;
+      min-height: 44px;
+      background: var(--accent-soft);
+      color: #24593a;
+    }
+
+    .summary-box {
+      background: #f7f1e4;
+      color: #5f5647;
+    }
+
+    .dish-list,
+    .order-list,
+    .total-list {
       display: grid;
       gap: 12px;
       margin-top: 12px;
     }
-    .dish-item {
+
+    .dish-item,
+    .order-card,
+    .total-card {
       border: 1px solid var(--line);
       border-radius: 14px;
       padding: 12px;
       background: #fff;
     }
-    .dish-top {
+
+    .dish-top,
+    .card-top {
       display: flex;
       justify-content: space-between;
-      gap: 12px;
       align-items: center;
+      gap: 12px;
     }
-    .dish-name { font-weight: 700; }
-    .dish-meta { color: var(--sub); font-size: 13px; margin-top: 4px; }
-    .actions {
+
+    .dish-name,
+    .total-name {
+      font-weight: 700;
+    }
+
+    .dish-meta,
+    .order-meta,
+    .small-note {
+      margin-top: 4px;
+      color: var(--sub);
+      font-size: 13px;
+    }
+
+    .dish-layout {
       display: grid;
-      grid-template-columns: 90px 90px 1fr auto auto;
-      gap: 8px;
-      margin-top: 10px;
+      grid-template-columns: 96px 1fr;
+      gap: 12px;
+      align-items: start;
     }
+
+    .dish-thumb,
+    .upload-preview {
+      width: 96px;
+      height: 96px;
+      object-fit: cover;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: #f8f3e8;
+      display: block;
+    }
+
+    .upload-preview.hidden {
+      display: none;
+    }
+
+    .upload-tip {
+      margin-top: 8px;
+      color: var(--sub);
+      font-size: 12px;
+    }
+
     .pill {
       display: inline-block;
       padding: 4px 10px;
       border-radius: 999px;
-      background: #e9f4ec;
-      color: #2f7d4d;
+      background: var(--pill-bg);
+      color: var(--pill-text);
       font-size: 12px;
       font-weight: 700;
     }
-    .status {
-      margin-top: 12px;
-      padding: 12px;
-      border-radius: 12px;
-      background: #eef7f1;
-      color: #24593a;
-      min-height: 44px;
+
+    .pill.warn {
+      background: var(--pill-warn-bg);
+      color: var(--pill-warn-text);
     }
-    @media (max-width: 860px) {
-      .grid { grid-template-columns: 1fr; }
-      .row { grid-template-columns: 1fr; }
-      .actions { grid-template-columns: 1fr 1fr; }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 88px 88px 1fr;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .image-actions,
+    .item-actions {
+      display: grid;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .image-actions {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .item-actions {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .section-title {
+      margin-top: 16px;
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+
+    .empty {
+      color: var(--sub);
+      padding: 8px 0;
+    }
+
+    @media (max-width: 900px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .dish-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .dish-thumb,
+      .upload-preview {
+        width: 100%;
+        max-width: 180px;
+        height: auto;
+        aspect-ratio: 1 / 1;
+      }
+
+      .actions,
+      .image-actions,
+      .item-actions {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
@@ -128,7 +300,7 @@
   <div class="wrap">
     <div class="hero">
       <h1>家庭菜单管理台</h1>
-      <div class="sub">这里给“做饭的人”用：新增菜品、创建某天菜单、开放或关闭点菜、把菜加入菜单。</div>
+      <div class="sub">这里给做饭的人用：新增菜品、上传图片、创建某天菜单、查看当天订单汇总、删除不再需要的菜品。</div>
     </div>
 
     <div class="grid">
@@ -146,11 +318,20 @@
                 <input id="dishCategory" placeholder="比如：荤菜 / 素菜 / 汤" />
               </div>
             </div>
-            <div style="margin-top:12px;">
+
+            <div style="margin-top: 12px;">
               <label for="dishNote">备注</label>
               <textarea id="dishNote" placeholder="比如：适合晚餐、微辣、需要提前准备"></textarea>
             </div>
-            <div style="margin-top:12px;">
+
+            <div style="margin-top: 12px;">
+              <label for="dishImage">菜品图片</label>
+              <input id="dishImage" type="file" accept="image/*" />
+              <img id="dishImagePreview" class="upload-preview hidden" alt="菜品图片预览" />
+              <div class="upload-tip">图片会自动压缩后保存，方便手机端上传。</div>
+            </div>
+
+            <div style="margin-top: 12px;">
               <button type="submit">保存菜品</button>
             </div>
           </form>
@@ -173,48 +354,71 @@
                 </select>
               </div>
             </div>
-            <div style="margin-top:12px;">
+
+            <div style="margin-top: 12px;">
               <label for="menuNote">菜单说明</label>
               <textarea id="menuNote" placeholder="比如：今天是周末晚餐，想吃清淡一点"></textarea>
             </div>
-            <div class="row" style="margin-top:12px;">
+
+            <div class="row" style="margin-top: 12px;">
               <button type="button" id="loadMenuBtn" class="secondary">加载这一天菜单</button>
               <button type="submit">创建 / 更新菜单</button>
             </div>
           </form>
+
           <div id="menuSummary" class="menu-summary">还没有加载菜单。</div>
         </section>
       </div>
 
-      <section class="card">
-        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;">
-          <h2>把菜加入当天菜单</h2>
-          <span class="pill" id="dishCount">0 道菜</span>
-        </div>
-        <div class="sub">先加载某一天菜单，再在下面把菜加入菜单或移出菜单。</div>
-        <div id="dishList" class="dish-list"></div>
-        <div id="statusBox" class="status">等待操作</div>
-      </section>
+      <div class="stack">
+        <section class="card">
+          <div class="card-top">
+            <h2>菜品库与当天菜单</h2>
+            <span class="pill" id="dishCount">0 道菜</span>
+          </div>
+          <div class="sub">先加载某一天菜单，再把菜加入菜单、更新图片，或直接从菜品库删除。</div>
+          <div id="dishList" class="dish-list"></div>
+          <div id="statusBox" class="status">等待操作</div>
+        </section>
+
+        <section class="card">
+          <div class="card-top">
+            <h2>今日订单汇总</h2>
+            <span class="pill" id="orderCount">0 单</span>
+          </div>
+          <div id="orderSummaryBox" class="summary-box">先加载某一天菜单，下面会显示当天点菜汇总。</div>
+
+          <div class="section-title">每道菜合计</div>
+          <div id="totalList" class="total-list"></div>
+
+          <div class="section-title">成员点菜明细</div>
+          <div id="orderList" class="order-list"></div>
+        </section>
+      </div>
     </div>
   </div>
 
   <script>
-    const SUPABASE_URL = "https://lumbywzgadqqjmgzjjih.supabase.co/";
+    const SUPABASE_URL = "https://lumbywzgadqqjmgzjjih.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx1bWJ5d3pnYWRxcWptZ3pqamloIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMxNzA0MTEsImV4cCI6MjA5ODc0NjQxMX0.1A0m9Dbl_TSEOgnGmksVy_9toImcRjpTPEPe_wVu9lk";
-alert("管理页脚本已加载");
     const FAMILY_ID = "fam_001";
     const ADMIN_USER_ID = "user_001";
 
     const state = {
+      supportsDishImages: true,
       dishes: [],
       menu: null,
-      menuItemsByDishId: {}
+      menuItemsByDishId: {},
+      orders: [],
+      totals: []
     };
 
     const $dishForm = document.getElementById("dishForm");
     const $dishName = document.getElementById("dishName");
     const $dishCategory = document.getElementById("dishCategory");
     const $dishNote = document.getElementById("dishNote");
+    const $dishImage = document.getElementById("dishImage");
+    const $dishImagePreview = document.getElementById("dishImagePreview");
 
     const $menuForm = document.getElementById("menuForm");
     const $menuDate = document.getElementById("menuDate");
@@ -226,32 +430,46 @@ alert("管理页脚本已加载");
     const $dishList = document.getElementById("dishList");
     const $dishCount = document.getElementById("dishCount");
     const $statusBox = document.getElementById("statusBox");
+    const $orderCount = document.getElementById("orderCount");
+    const $orderSummaryBox = document.getElementById("orderSummaryBox");
+    const $totalList = document.getElementById("totalList");
+    const $orderList = document.getElementById("orderList");
 
-    $menuDate.value = new Date().toISOString().slice(0, 10);
+    $menuDate.value = getTodayLocalDate();
 
     $dishForm.addEventListener("submit", addDish);
     $menuForm.addEventListener("submit", saveMenu);
     $loadMenuBtn.addEventListener("click", loadMenuContext);
     $dishList.addEventListener("click", onDishListClick);
+    $dishImage.addEventListener("change", () => {
+      previewFile($dishImage, $dishImagePreview);
+    });
 
-    function esc(s) {
-      return String(s ?? "").replace(/[&<>"']/g, c => ({
+    function getTodayLocalDate() {
+      const now = new Date();
+      const offsetMs = now.getTimezoneOffset() * 60000;
+      return new Date(now.getTime() - offsetMs).toISOString().slice(0, 10);
+    }
+
+    function esc(value) {
+      return String(value ?? "").replace(/[&<>"']/g, (char) => ({
         "&": "&amp;",
         "<": "&lt;",
         ">": "&gt;",
         "\"": "&quot;",
         "'": "&#39;"
-      }[c]));
+      }[char]));
     }
 
     function setStatus(text, isError = false) {
       $statusBox.textContent = text;
-      $statusBox.style.background = isError ? "#fff1ef" : "#eef7f1";
+      $statusBox.style.background = isError ? "var(--danger-soft)" : "var(--accent-soft)";
       $statusBox.style.color = isError ? "#a33a2a" : "#24593a";
     }
 
     async function api(path, method = "GET", body = null, extraHeaders = {}) {
-      const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+      const baseUrl = SUPABASE_URL.replace(/\/$/, "");
+      const res = await fetch(`${baseUrl}/rest/v1/${path}`, {
         method,
         headers: {
           "apikey": SUPABASE_ANON_KEY,
@@ -263,20 +481,80 @@ alert("管理页脚本已加载");
       });
 
       const text = await res.text();
-      if (!res.ok) throw new Error(text || `${method} ${path} 失败`);
+      if (!res.ok) {
+        throw new Error(text || `${method} ${path} failed`);
+      }
+
       return text ? JSON.parse(text) : [];
     }
 
+    async function previewFile(input, imageElement) {
+      const file = input.files?.[0];
+      if (!file) {
+        imageElement.classList.add("hidden");
+        imageElement.removeAttribute("src");
+        return;
+      }
+
+      const dataUrl = await readFileAsDataUrl(file);
+      imageElement.src = dataUrl;
+      imageElement.classList.remove("hidden");
+    }
+
+    async function readFileAsDataUrl(file) {
+      return await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = () => reject(new Error("读取图片失败"));
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function compressImageFile(file, maxSide = 960, quality = 0.82) {
+      const src = await readFileAsDataUrl(file);
+      const img = await new Promise((resolve, reject) => {
+        const image = new Image();
+        image.onload = () => resolve(image);
+        image.onerror = () => reject(new Error("图片解析失败"));
+        image.src = src;
+      });
+
+      const scale = Math.min(1, maxSide / Math.max(img.width, img.height));
+      const width = Math.max(1, Math.round(img.width * scale));
+      const height = Math.max(1, Math.round(img.height * scale));
+
+      const canvas = document.createElement("canvas");
+      canvas.width = width;
+      canvas.height = height;
+
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, width, height);
+      return canvas.toDataURL("image/jpeg", quality);
+    }
+
     async function loadDishes() {
-      state.dishes = await api(
-        `dishes?select=id,name,category,note,is_active,created_at&family_id=eq.${FAMILY_ID}&is_active=eq.true&order=created_at.asc`
-      );
+      try {
+        state.supportsDishImages = true;
+        state.dishes = await api(
+          `dishes?select=id,name,category,note,image_url,is_active,created_at&family_id=eq.${FAMILY_ID}&is_active=eq.true&order=created_at.asc`
+        );
+      } catch (error) {
+        if (!String(error.message).includes("image_url")) {
+          throw error;
+        }
+
+        state.supportsDishImages = false;
+        state.dishes = await api(
+          `dishes?select=id,name,category,note,is_active,created_at&family_id=eq.${FAMILY_ID}&is_active=eq.true&order=created_at.asc`
+        );
+      }
+
       $dishCount.textContent = `${state.dishes.length} 道菜`;
     }
 
     async function loadMenuContext() {
       try {
-        setStatus("正在加载菜单和菜库...");
+        setStatus("正在加载菜单、菜库和订单汇总...");
         await loadDishes();
 
         const date = $menuDate.value;
@@ -286,6 +564,8 @@ alert("管理页脚本已加载");
 
         state.menu = menus[0] || null;
         state.menuItemsByDishId = {};
+        state.orders = [];
+        state.totals = [];
 
         if (state.menu) {
           const items = await api(
@@ -299,87 +579,246 @@ alert("管理页脚本已加载");
           $menuStatus.value = state.menu.status || "draft";
           $menuNote.value = state.menu.note || "";
           $menuSummary.innerHTML = `已找到菜单：<b>${esc(state.menu.menu_date)}</b> ｜ 状态：<b>${esc(state.menu.status)}</b> ｜ 已加入菜数：<b>${Object.keys(state.menuItemsByDishId).length}</b>`;
+
+          await loadOrderSummary();
         } else {
           $menuStatus.value = "draft";
           $menuNote.value = "";
-          $menuSummary.innerHTML = `这一天还没有菜单。先点“创建 / 更新菜单”。`;
+          $menuSummary.innerHTML = "这一天还没有菜单。先点“创建 / 更新菜单”。";
         }
 
         renderDishList();
+        renderOrderSummary();
         setStatus("加载完成。");
-      } catch (err) {
-        setStatus(`加载失败：${err.message}`, true);
+      } catch (error) {
+        console.error(error);
+        setStatus(`加载失败：${error.message}`, true);
       }
+    }
+
+    async function loadOrderSummary() {
+      if (!state.menu) {
+        state.orders = [];
+        state.totals = [];
+        return;
+      }
+
+      const users = await api(
+        `users?select=id,nickname&family_id=eq.${FAMILY_ID}`
+      );
+      const usersById = Object.fromEntries(users.map((user) => [user.id, user.nickname]));
+
+      const orders = await api(
+        `orders?select=id,user_id,status,remark,created_at&menu_id=eq.${state.menu.id}&order=created_at.asc`
+      );
+
+      const orderIds = orders.map((order) => order.id);
+      const orderItems = orderIds.length
+        ? await api(`order_items?select=id,order_id,dish_id,qty,note&order_id=in.(${orderIds.join(",")})`)
+        : [];
+
+      const dishesById = Object.fromEntries(state.dishes.map((dish) => [dish.id, dish]));
+      const totalsMap = new Map();
+
+      state.orders = orders.map((order) => {
+        const items = orderItems
+          .filter((item) => item.order_id === order.id)
+          .map((item) => {
+            const dish = dishesById[item.dish_id] || {};
+            const dishName = dish.name || item.dish_id;
+            const total = totalsMap.get(item.dish_id) || {
+              dish_id: item.dish_id,
+              dish_name: dishName,
+              qty: 0,
+              image_url: dish.image_url || ""
+            };
+
+            total.qty += Number(item.qty || 0);
+            totalsMap.set(item.dish_id, total);
+
+            return {
+              ...item,
+              dish_name: dishName
+            };
+          });
+
+        return {
+          ...order,
+          nickname: usersById[order.user_id] || order.user_id,
+          items
+        };
+      });
+
+      state.totals = Array.from(totalsMap.values()).sort((a, b) => b.qty - a.qty);
     }
 
     function renderDishList() {
       if (!state.dishes.length) {
-        $dishList.innerHTML = `<div class="sub">还没有菜品，请先在左边新增菜品。</div>`;
+        $dishList.innerHTML = `<div class="empty">还没有菜品，请先在左边新增菜品。</div>`;
         return;
       }
 
-      $dishList.innerHTML = state.dishes.map(dish => {
+      $dishList.innerHTML = state.dishes.map((dish) => {
         const inMenu = state.menuItemsByDishId[dish.id];
+        const imageBlock = dish.image_url
+          ? `<img class="dish-thumb" src="${esc(dish.image_url)}" alt="${esc(dish.name)}" />`
+          : `<div class="dish-thumb" style="display:flex;align-items:center;justify-content:center;color:#9b8d78;">暂无图片</div>`;
+
         return `
           <div class="dish-item">
-            <div class="dish-top">
+            <div class="dish-layout">
               <div>
-                <div class="dish-name">${esc(dish.name)}</div>
-                <div class="dish-meta">${esc(dish.category || "未分类")} ｜ ${esc(dish.note || "无备注")}</div>
+                ${imageBlock}
               </div>
-              ${inMenu ? `<span class="pill">已在菜单中</span>` : `<span class="pill" style="background:#f5ece2;color:#9a5c24;">未加入</span>`}
-            </div>
-            <div class="actions">
-              <input type="number" min="0" value="${esc(inMenu?.available_qty ?? 1)}" data-field="qty" data-dish-id="${esc(dish.id)}" placeholder="份数" />
-              <input type="number" min="0" value="${esc(inMenu?.sort_order ?? 0)}" data-field="sort" data-dish-id="${esc(dish.id)}" placeholder="排序" />
-              <input type="text" value="${esc(inMenu?.cook_note ?? "")}" data-field="note" data-dish-id="${esc(dish.id)}" placeholder="做法备注，比如少油" />
-              <button type="button" data-action="save-item" data-dish-id="${esc(dish.id)}">${inMenu ? "更新" : "加入菜单"}</button>
-              ${inMenu ? `<button type="button" class="danger" data-action="remove-item" data-dish-id="${esc(dish.id)}">移出</button>` : `<button type="button" class="secondary" disabled>移出</button>`}
+              <div>
+                <div class="dish-top">
+                  <div>
+                    <div class="dish-name">${esc(dish.name)}</div>
+                    <div class="dish-meta">${esc(dish.category || "未分类")} ｜ ${esc(dish.note || "无备注")}</div>
+                  </div>
+                  ${inMenu
+                    ? `<span class="pill">已在菜单中</span>`
+                    : `<span class="pill warn">未加入菜单</span>`}
+                </div>
+
+                <div class="actions">
+                  <input type="number" min="0" value="${esc(inMenu?.available_qty ?? 1)}" data-field="qty" data-dish-id="${esc(dish.id)}" placeholder="份数" />
+                  <input type="number" min="0" value="${esc(inMenu?.sort_order ?? 0)}" data-field="sort" data-dish-id="${esc(dish.id)}" placeholder="排序" />
+                  <input type="text" value="${esc(inMenu?.cook_note ?? "")}" data-field="note" data-dish-id="${esc(dish.id)}" placeholder="做法备注，比如少油" />
+                </div>
+
+                <div class="item-actions">
+                  <button type="button" data-action="save-item" data-dish-id="${esc(dish.id)}">${inMenu ? "更新菜单项" : "加入当天菜单"}</button>
+                  ${inMenu
+                    ? `<button type="button" class="secondary" data-action="remove-item" data-dish-id="${esc(dish.id)}">从当天菜单移出</button>`
+                    : `<button type="button" class="secondary" disabled>从当天菜单移出</button>`}
+                </div>
+
+                <div class="small-note">更新图片后，家属点菜页会直接显示新图。</div>
+                <div class="image-actions">
+                  <input type="file" accept="image/*" data-field="image" data-dish-id="${esc(dish.id)}" />
+                  <button type="button" class="secondary" data-action="update-image" data-dish-id="${esc(dish.id)}">更新图片</button>
+                </div>
+
+                <div class="image-actions">
+                  <button type="button" class="danger" data-action="delete-dish" data-dish-id="${esc(dish.id)}">从菜品库删除</button>
+                  <div></div>
+                </div>
+              </div>
             </div>
           </div>
         `;
       }).join("");
     }
 
+    function renderOrderSummary() {
+      $orderCount.textContent = `${state.orders.length} 单`;
+
+      if (!state.menu) {
+        $orderSummaryBox.textContent = "先加载某一天菜单，下面会显示当天点菜汇总。";
+        $totalList.innerHTML = `<div class="empty">还没有可汇总的数据。</div>`;
+        $orderList.innerHTML = `<div class="empty">还没有成员点菜记录。</div>`;
+        return;
+      }
+
+      $orderSummaryBox.innerHTML = `日期：<b>${esc(state.menu.menu_date)}</b> ｜ 状态：<b>${esc(state.menu.status)}</b> ｜ 订单数：<b>${state.orders.length}</b>`;
+
+      if (!state.totals.length) {
+        $totalList.innerHTML = `<div class="empty">还没有菜品被点单。</div>`;
+      } else {
+        $totalList.innerHTML = state.totals.map((item) => `
+          <div class="total-card">
+            <div class="card-top">
+              <div class="total-name">${esc(item.dish_name)}</div>
+              <span class="pill">共 ${esc(item.qty)} 份</span>
+            </div>
+          </div>
+        `).join("");
+      }
+
+      if (!state.orders.length) {
+        $orderList.innerHTML = `<div class="empty">还没有成员点菜记录。</div>`;
+        return;
+      }
+
+      $orderList.innerHTML = state.orders.map((order) => `
+        <div class="order-card">
+          <div class="card-top">
+            <strong>${esc(order.nickname)}</strong>
+            <span class="pill">${esc(order.status)}</span>
+          </div>
+          <div class="order-meta">${esc(order.remark || "无备注")}</div>
+          <div class="order-meta" style="margin-top:8px;">
+            ${order.items.length
+              ? order.items.map((item) => `${esc(item.dish_name)} x ${esc(item.qty)}${item.note ? `（${esc(item.note)}）` : ""}`).join("<br>")
+              : "这张订单目前没有菜品"}
+          </div>
+        </div>
+      `).join("");
+    }
+
     async function addDish(event) {
       event.preventDefault();
+
       try {
         const name = $dishName.value.trim();
         const category = $dishCategory.value.trim();
         const note = $dishNote.value.trim();
+        const file = $dishImage.files?.[0];
 
         if (!name) {
           setStatus("请先填写菜名。", true);
           return;
         }
 
+        let imageUrl = "";
+        if (file) {
+          imageUrl = await compressImageFile(file);
+        }
+
+        const payload = {
+          id: crypto.randomUUID(),
+          family_id: FAMILY_ID,
+          name,
+          category,
+          tags: [],
+          note,
+          is_active: true
+        };
+
+        if (imageUrl) {
+          payload.image_url = imageUrl;
+        }
+
         await api(
-          `dishes`,
+          "dishes",
           "POST",
-          [{
-            id: crypto.randomUUID(),
-            family_id: FAMILY_ID,
-            name,
-            category,
-            tags: [],
-            note,
-            is_active: true
-          }],
+          [payload],
           { "Prefer": "return=minimal" }
         );
 
         $dishName.value = "";
         $dishCategory.value = "";
         $dishNote.value = "";
+        $dishImage.value = "";
+        $dishImagePreview.classList.add("hidden");
+        $dishImagePreview.removeAttribute("src");
+
         await loadMenuContext();
         setStatus("菜品已保存。");
-      } catch (err) {
-        setStatus(`保存菜品失败：${err.message}`, true);
+      } catch (error) {
+        console.error(error);
+        if (String(error.message).includes("image_url")) {
+          setStatus("数据库还没有图片字段，请先执行我后面给你的升级 SQL。", true);
+          return;
+        }
+        setStatus(`保存菜品失败：${error.message}`, true);
       }
     }
 
     async function saveMenu(event) {
       event.preventDefault();
+
       try {
         const menuDate = $menuDate.value;
         const note = $menuNote.value.trim();
@@ -399,7 +838,7 @@ alert("管理页脚本已加载");
           );
         } else {
           await api(
-            `daily_menus`,
+            "daily_menus",
             "POST",
             [{
               id: crypto.randomUUID(),
@@ -415,19 +854,120 @@ alert("管理页脚本已加载");
 
         await loadMenuContext();
         setStatus("菜单基本信息已保存。");
-      } catch (err) {
-        setStatus(`保存菜单失败：${err.message}`, true);
+      } catch (error) {
+        console.error(error);
+        setStatus(`保存菜单失败：${error.message}`, true);
+      }
+    }
+
+    async function updateDishImage(dishId) {
+      const input = document.querySelector(`[data-field="image"][data-dish-id="${dishId}"]`);
+      const file = input?.files?.[0];
+
+      if (!file) {
+        setStatus("请先选择一张图片，再点更新图片。", true);
+        return;
+      }
+
+      try {
+        const imageUrl = await compressImageFile(file);
+        await api(
+          `dishes?id=eq.${dishId}`,
+          "PATCH",
+          { image_url: imageUrl },
+          { "Prefer": "return=minimal" }
+        );
+
+        await loadMenuContext();
+        setStatus("菜品图片已更新。");
+      } catch (error) {
+        console.error(error);
+        if (String(error.message).includes("image_url")) {
+          setStatus("数据库还没有图片字段，请先执行我后面给你的升级 SQL。", true);
+          return;
+        }
+        setStatus(`更新图片失败：${error.message}`, true);
+      }
+    }
+
+    async function deleteDishCompletely(dishId) {
+      try {
+        setStatus("正在删除菜品及相关菜单/订单数据...");
+
+        const relatedOrderItems = await api(
+          `order_items?select=order_id&dish_id=eq.${dishId}`
+        );
+
+        await api(
+          `order_items?dish_id=eq.${dishId}`,
+          "DELETE",
+          null,
+          { "Prefer": "return=minimal" }
+        );
+
+        await api(
+          `daily_menu_items?dish_id=eq.${dishId}`,
+          "DELETE",
+          null,
+          { "Prefer": "return=minimal" }
+        );
+
+        const orderIds = [...new Set(relatedOrderItems.map((item) => item.order_id))];
+        for (const orderId of orderIds) {
+          const remains = await api(
+            `order_items?select=id&order_id=eq.${orderId}&limit=1`
+          );
+
+          if (!remains.length) {
+            await api(
+              `orders?id=eq.${orderId}`,
+              "DELETE",
+              null,
+              { "Prefer": "return=minimal" }
+            );
+          }
+        }
+
+        await api(
+          `dishes?id=eq.${dishId}`,
+          "DELETE",
+          null,
+          { "Prefer": "return=minimal" }
+        );
+
+        await loadMenuContext();
+        setStatus("菜品已从菜品库删除。");
+      } catch (error) {
+        console.error(error);
+        setStatus(`删除菜品失败：${error.message}`, true);
       }
     }
 
     async function onDishListClick(event) {
       const button = event.target.closest("button[data-action]");
-      if (!button) return;
+      if (!button) {
+        return;
+      }
 
       const action = button.dataset.action;
       const dishId = button.dataset.dishId;
 
       try {
+        if (action === "update-image") {
+          await updateDishImage(dishId);
+          return;
+        }
+
+        if (action === "delete-dish") {
+          const confirmed = window.confirm("删除后会同步移除这道菜在菜单和点单里的记录，确定继续吗？");
+          if (!confirmed) {
+            return;
+          }
+
+          await deleteDishCompletely(dishId);
+          return;
+        }
+
         if (!state.menu) {
           setStatus("这一天还没有菜单，请先创建菜单。", true);
           return;
@@ -452,7 +992,7 @@ alert("管理页脚本已加载");
             );
           } else {
             await api(
-              `daily_menu_items`,
+              "daily_menu_items",
               "POST",
               [{
                 id: crypto.randomUUID(),
@@ -468,11 +1008,14 @@ alert("管理页脚本已加载");
 
           await loadMenuContext();
           setStatus("菜单菜品已保存。");
+          return;
         }
 
         if (action === "remove-item") {
           const existing = state.menuItemsByDishId[dishId];
-          if (!existing) return;
+          if (!existing) {
+            return;
+          }
 
           await api(
             `daily_menu_items?id=eq.${existing.id}`,
@@ -482,10 +1025,11 @@ alert("管理页脚本已加载");
           );
 
           await loadMenuContext();
-          setStatus("已从菜单中移出。");
+          setStatus("已从当天菜单移出。");
         }
-      } catch (err) {
-        setStatus(`操作失败：${err.message}`, true);
+      } catch (error) {
+        console.error(error);
+        setStatus(`操作失败：${error.message}`, true);
       }
     }
 
